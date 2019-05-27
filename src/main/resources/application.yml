@@ -3,7 +3,8 @@ server:
 spring:
   datasource:
     username: root
-    password: 123456
+    #password: 123456
+    password: root #家123456 公司root
     url: jdbc:mysql://localhost:3306/sconline?useAffectedRows=true&characterEncoding=utf-8&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     #修改springboot默认数据源为Druid
@@ -26,4 +27,5 @@ spring:
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
 mybatis:
-  mapper-locations: classpath:static/mapper/*.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  config-location: classpath:mybatis/mybatis-config.xml

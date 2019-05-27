@@ -3,7 +3,7 @@ package com.sss.online;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-@MapperScan("com.sss.online.dao")
+//@MapperScan(value = "com.sss.online.dao")
 @SpringBootApplication
 public class OnlineApplication {
 
