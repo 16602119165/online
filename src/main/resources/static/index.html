@@ -69,10 +69,11 @@
                                         msg:"登录成功",
                                         timeout:5000
                                     });
+                                    sessionStorage.setItem('emp',JSON.stringify(result.data));
+                                    window.location="../page/main.html"
                                 }else{
                                     $.messager.alert('标题',result.message);
                                 }
-                                window.location="../page/main.html"
                             }
                         });
                     }

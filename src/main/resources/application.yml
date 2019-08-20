@@ -5,7 +5,9 @@ spring:
     username: root
     #password: 123456
     password: root #家123456 公司root
-    url: jdbc:mysql://localhost:3306/sconline?useAffectedRows=true&characterEncoding=utf-8&serverTimezone=UTC
+    #mysql 低版本使用高版本的驱动，需要设置serverTimezone否则会报错。
+    #url: jdbc:mysql://101.132.146.76:3306/sconline?useAffectedRows=true&characterEncoding=utf-8&serverTimezone=UTC
+    url: jdbc:mysql://101.132.146.76:3306/sconline?useAffectedRows=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     #修改springboot默认数据源为Druid
     type: com.alibaba.druid.pool.DruidDataSource
@@ -26,6 +28,43 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  #springboot 整合redis
+  redis:
+    host: 101.132.146.76
+    database: 0
+  #springboot 整合rabbitmq
+  rabbitmq:
+    host: 101.132.146.76
+    username: guest
+    password: guest
+  #邮件发送器
+  mail:
+    #username: 860671577@qq.com
+    #password: ycfdfxpchuebbeeh
+    #发件服务器
+    host: smtp.exmail.qq.com
+    username: bob.zhou@saichenglogistics.com
+    password: Sc0815!
+    default-encoding: utf-8
+    port: 25
+    protocol: smtp
+  application:
+    name: bob #这个是显示在服务中心的实例名称
+
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
   config-location: classpath:mybatis/mybatis-config.xml
+logging:
+  level:
+    com.sss.online.dao: debug
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://101.132.146.76:8001/eureka/
+      #defaultZone: http://localhost:8001/eureka/
+      register-with-eureka: true
+      fetch-registry: true
+      prefer-ip-address: true
+  instance:
+    hostname: bob

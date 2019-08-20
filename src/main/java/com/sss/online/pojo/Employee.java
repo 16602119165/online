@@ -9,6 +9,43 @@ public class Employee {
     String post;
     String deptName;
     int deptCode;
+    int roleId;
+    String leader;
+    String leaderEmail;
+    String empId;
+
+    public String getLeader() {
+        return leader;
+    }
+
+    public void setLeader(String leader) {
+        this.leader = leader;
+    }
+
+    public String getLeaderEmail() {
+        return leaderEmail;
+    }
+
+    public void setLeaderEmail(String leaderEmail) {
+        this.leaderEmail = leaderEmail;
+    }
+
+    public String getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(String empId) {
+        this.empId = empId;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
+
     public int getId() {
         return id;
     }
@@ -84,6 +121,10 @@ public class Employee {
                 ", post='" + post + '\'' +
                 ", deptName='" + deptName + '\'' +
                 ", deptCode=" + deptCode +
+                ", roleId=" + roleId +
+                ", leader='" + leader + '\'' +
+                ", leaderEmail='" + leaderEmail + '\'' +
+                ", empId='" + empId + '\'' +
                 '}';
     }
 }

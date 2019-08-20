@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../../js/jquery-easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery-easyui/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../js/jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/jquery-easyui/themes/icon.css">
+    <script type="text/javascript" src="../../js/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+    <title>加班管理</title>
+</head>
+<body>
+<div id="jbglDialog" title="加班申请" style="width:400px;height:200px;">
+    <form id="jbglForm" method="post">
+        <table>
+            <tr>
+                <th align="right">姓名</th>
+                <td><input name="name" class="easyui-validatebox" data-options="required:true"/></td>
+            </tr>
+            <tr>
+                <th align="right">开始时间</th>
+                <td><input name="workStart"  class="easyui-validatebox" data-options="required:true" type="date" /></td>
+            </tr>
+            <tr>
+                <th align="right">结束时间</th>
+                <td><input name="workEnd"  class="easyui-validatebox" data-options="required:true" type="date" /></td>
+            </tr>
+            <tr>
+                <th align="right">总计时间</th>
+                <td><input name="workTime"  class="easyui-validatebox" data-options="required:true" /></td>
+            </tr>
+            <tr>
+                <th align="right">加班内容</th>
+                <td><input name="workContent"  class="easyui-validatebox" data-options="required:true" /></td>
+            </tr>
+            <tr>
+                <th align="right">上级审批人</th>
+                <td><input name="leader"  class="easyui-validatebox" data-options="required:true" /></td>
+            </tr>
+            <tr>
+                <th align="right">抄送</th>
+                <td><input name="otherEmail"  class="easyui-validatebox" data-options="required:true" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        jbglDialog = $('#jbglDialog').dialog({
+            modal:true,
+            buttons:[{
+                text:"提交",
+                handler : function(){
+                    $.ajax({
+                        type:'POST',
+                        url:'http://localhost:8090/xzgl/jbgl/insert',
+                        data:$('#jbglForm').serialize(),
+                        dataType:'json',
+                        success:function(result){
+                            if(result && result.status == 0){
+                                jbglDialog.dialog('close');
+                                $.messager.show({
+                                    title:'提示',
+                                    msg:"登录成功",
+                                    timeout:5000
+                                });
+                                window.location="../page/main.html"
+                            }else{
+                                $.messager.alert('标题',result.message);
+                            }
+                        }
+                    });
+                }
+            } ]
+
+        });
+    });
+</script>
+</body>
+</html>
