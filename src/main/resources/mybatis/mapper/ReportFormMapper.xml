@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sss.online.dao.ReportFormMapper">
+    
+    <resultMap id="xzbb" type="com.sss.online.pojo.XZBB">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="emp_name" jdbcType="VARCHAR" property="empName"></result>
+        <result column="dept_name" jdbcType="VARCHAR" property="deptName"></result>
+        <result column="post" jdbcType="VARCHAR" property="post"></result>
+        <result column="type_name" jdbcType="VARCHAR" property="typeName"></result>
+        <result column="form_type_detail" jdbcType="VARCHAR" property="formTypeDetail"></result>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"></result>
+        <result column="start" jdbcType="TIMESTAMP" property="start"></result>
+        <result column="end" jdbcType="TIMESTAMP" property="end"></result>
+        <result column="time" jdbcType="VARCHAR" property="time"></result>
+    </resultMap>
+    
+    <resultMap id="organization" type="com.sss.online.pojo.Organization">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="org_name" jdbcType="VARCHAR" property="orgName"></result>
+        <result column="org_code" jdbcType="INTEGER" property="orgCode"></result>
+        <result column="emp_name" jdbcType="VARCHAR" property="empName"></result>
+        <result column="emp_email" jdbcType="VARCHAR" property="empEmail"></result>
+        <result column="org_p_id" jdbcType="INTEGER" property="orgPId"></result>
+    </resultMap>
+
+    <select id="query" resultMap="xzbb">
+        select id,emp_name,dept_name,post,type_name,form_type_detail,create_date,start,end,time from  xzgl
+        <where>
+            <if test="queryDTO.empName != null and queryDTO.empName !=''">
+                emp_name = #{queryDTO.empName}
+            </if>
+            <if test="queryDTO.formTypeDetail != '所有' and  queryDTO.formTypeDetail != null and queryDTO.formTypeDetail != '' ">
+                and form_type_detail = #{queryDTO.formTypeDetail}
+            </if>
+            <if test="queryDTO.startTime !=null ">
+                and start &gt;= #{queryDTO.startTime}
+            </if>
+            <if test="queryDTO.endTime !=null ">
+                and end &lt;= #{queryDTO.endTime}
+            </if>
+        </where>
+    </select>
+    
+    <select id="queryName" resultMap="organization">
+        select * from organization
+    </select>
+
+    <select id="getCount" resultType="java.lang.Long">
+        select count(*)
+        from xzgl
+        <where>
+            <if test="queryDTO.empName != null and queryDTO.empName !=''">
+                emp_name = #{queryDTO.empName}
+            </if>
+            <if test="queryDTO.formTypeDetail != '所有' and queryDTO.formTypeDetail != null and queryDTO.formTypeDetail != '' ">
+                and form_type_detail = #{queryDTO.formTypeDetail}
+            </if>
+            <if test="queryDTO.startTime !=null ">
+                and start &gt;= #{queryDTO.startTime}
+            </if>
+            <if test="queryDTO.endTime !=null ">
+                and end &lt;= #{queryDTO.endTime}
+            </if>
+        </where>
+    </select>
+</mapper>

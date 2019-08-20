@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>行政报表</title>
+    <script type="text/javascript" src="../commonjs/common.js"></script>
+    <script type="text/javascript">
+        var xzdg = '';
+        $(function() {
+            xzdg = $('#xzdg').datagrid({
+                url: '',
+                updateUrl: '',
+                columns: [[
+                    {field: 'id', checkbox: true},
+                    {field: 'empName', title: '员工姓名', width: 100},
+                    {field: 'deptName', title: '部门', width: 100},
+                    {field: 'post', title: '职位', width: 100},
+                    {field: 'typeName', title: '类型', width: 100},
+                    {field: 'formTypeDetail', title: '类型详细', width: 100},
+                    {field: 'createDate', title: '创建时间', width: 150/*,sortable:true, formatter: function(value, row, index){return tolocaldate(value)}*/},
+                    {field: 'start', title: '开始时间', width: 150/*,sortable:true, formatter: function (value, row, index) {return changeDateFormat(value)}*/},
+                    {field: 'end', title: '结束时间', width: 150/*,sortable:true, formatter: function (value, row, index) {return changeDateFormat(value)}*/},
+                    {field: 'time', title: '时间小计', width: 150},
+                ]],
+                toolbar: [
+                    {
+                        id:'search',
+                        iconCls: 'icon-search',
+                        text:'查询',
+                        handler: function(){
+                            query();
+                        }
+                    },'-',
+                    {
+                        id:'Export',
+                        text:'报表导出',
+                        iconCls: 'icon-edit',
+                        handler: function(){
+                            reportExport();
+                        }
+                    }
+                ]
+            });       
+        });
+        function  query() {
+            var name = $('#empName').combotree('getText');
+            var s = $('#start').datetimebox('getValue');
+            var e = $('#end').datetimebox('getValue');
+            if (e > s){
+                xzdg.datagrid({
+                    url : "../bbgl/xzbb/query",
+                    pageNumber : 1,
+                    queryParams : {
+                        empName:name,
+                        formTypeDetail : $('#formTypeDetail').combobox('getText'),
+                        startTime : $('#start').datetimebox('getValue'),
+                        endTime : $('#end').datetimebox('getValue'),
+                    }
+                });
+            }else{
+                $.messager.alert('警告','结束时间要大于开始时间','warning');
+                window.location.reload();
+            }
+        }
+
+        function reportExport() {
+            var name = $('#empName').combotree('getText');
+            var s = $('#start').datetimebox('getValue');
+            var e = $('#end').datetimebox('getValue');
+            var detail = $('#formTypeDetail').combobox('getText');
+            $.ajax({
+                type:'POST',
+                url: "../bbgl/xzbb/reportExport",
+                dataType:'json',
+                //data: $('#reportForm').serialize(),
+                data: {"empName":name,"formTypeDetail":detail,"startTime":s,"endTime":e},
+                success:function(result){
+                }
+            });
+        }   
+    </script>
+</head>
+
+<body class='easyui-layout' fit='true'>
+    <div data-options="region:'north',title:'筛选条件',split:true" style="height:100px;">
+            <!--在easyui中，查询条件可以不用form包裹起来，可以使用datagrid的toolbar来提交数据-->
+        <form id="reportForm" method="post" >
+            <table>
+                    <tr>
+                        <td>开始时间<input class='easyui-datetimebox' type="text" id='start' name="start" data-options="required:true"></td>
+                        <td>结束时间<input class='easyui-datetimebox' type="text" id='end' name="end" data-options="required:true"></td>
+                        <td>姓名<input id="empName" name="empName" class="easyui-combotree" data-options="required:true,valueField:'id',textField:'text',editable:'true',url:'../../page/bbgl/xzbb/queryName'"></td>
+                        <td>类型详细<input id="formTypeDetail"name="formTypeDetail" class="easyui-combobox" data-options="required:true,valueField:'id',textField:'text',editable:'false',url:'../../page/xzgl/qjgl/qjlx'" /></td>
+                    </tr>
+            </table>
+        </form>
+    </div>
+    <div  region='center' style="padding: 5px; width: 100%; height: 100%;">
+        <div id='xzdg' fit='true'></div>
+    </div>
+</body>
+</html>

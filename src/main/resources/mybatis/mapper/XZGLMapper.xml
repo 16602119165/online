@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sss.online.dao.XZGLMapper">
+    <resultMap id="xzgl" type="com.sss.online.pojo.XZGL">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="type" jdbcType="INTEGER" property="jdbcType"></result>
+        <result column="type_name" jdbcType="VARCHAR" property="typeName"></result>
+        <result column="emp_name" jdbcType="VARCHAR" property="empName"></result>
+        <result column="dept_name" jdbcType="VARCHAR" property="deptName"></result>
+        <result column="post" jdbcType="VARCHAR" property="post"></result>
+        <result column="emp_id" jdbcType="VARCHAR" property="emp_id"></result>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"></result>
+        <result column="start" jdbcType="TIMESTAMP" property="start"></result>
+        <result column="end" jdbcType="TIMESTAMP" property="end"></result>
+        <result column="form_type" jdbcType="VARCHAR" property="formType"></result>
+        <result column="leader" jdbcType="VARCHAR" property="leader"></result>
+        <result column="content" jdbcType="VARCHAR" property="content"></result>
+        <result column="cs" jdbcType="VARCHAR" property="cs"></result>
+        <result column="time" jdbcType="INTEGER" property="time"></result>
+        <result column="form_type_detail" jdbcType="VARCHAR" property="formTypeDetail"></result>
+    </resultMap>
+    <sql id="basic_column">
+        (type,type_name,emp_name,dept_name,post,emp_id,create_date,start,end,form_type,leader,content,cs,time,form_type_detail)
+    </sql>
+    <insert id="QJGLAdd">
+    insert into xzgl <include refid="basic_column"></include> values
+    (#{xzgl.type},#{xzgl.typeName},#{xzgl.empName},#{xzgl.deptName},#{xzgl.post},#{xzgl.empId},
+    #{xzgl.createDate},#{xzgl.start},#{xzgl.end},#{xzgl.formType},#{xzgl.leader},#{xzgl.content},
+        #{xzgl.cs},#{xzgl.time},#{xzgl.formTypeDetail}
+    )
+    </insert>
+</mapper>

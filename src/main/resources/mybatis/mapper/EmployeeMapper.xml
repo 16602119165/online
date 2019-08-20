@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sss.online.dao.EmployeeMapper">
+
+    <resultMap id="employee" type="com.sss.online.pojo.Employee">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="name" jdbcType="VARCHAR" property="name"></result>
+        <result column="email" jdbcType="VARCHAR" property="email"></result>
+        <result column="password" jdbcType="VARCHAR" property="password"></result>
+        <result column="salt" jdbcType="VARCHAR" property="salt"></result>
+        <result column="post" jdbcType="VARCHAR" property="post"></result>
+        <result column="dept_name" jdbcType="VARCHAR" property="deptName"></result>
+        <result column="dept_code" jdbcType="INTEGER" property="deptCode"></result>
+        <result column="role_id" jdbcType="INTEGER" property="roleId"></result>
+        <result column="leader" jdbcType="VARCHAR" property="leader"></result>
+        <result column="leader_email" jdbcType="VARCHAR" property="leaderEmail"></result>
+        <result column="emp_id" jdbcType="INTEGER" property="empId"></result>
+    </resultMap>
+
+    <resultMap id="employeeDto" type="com.sss.online.dto.EmployeeDto">
+        <result column="name" jdbcType="VARCHAR" property="name"></result>
+        <result column="dept_name" jdbcType="VARCHAR" property="deptName"></result>
+        <result column="post" jdbcType="VARCHAR" property="post"></result>
+        <result column="emp_id" jdbcType="VARCHAR" property="empId"></result>
+        <result column="email" jdbcType="VARCHAR" property="email"></result>
+        <result column="leader" jdbcType="VARCHAR" property="leader"></result>
+        <result column="leader_email" jdbcType="VARCHAR" property="leaderEmail"></result>
+    </resultMap>
+
+
+
+    <select id="selectEmployee" resultType="java.lang.Integer">
+        select count(*) from employee where name =#{name} and password = #{password}
+    </select>
+
+    <select id="selectEmpDto" resultMap="employeeDto">
+        select name,dept_name,post,email,emp_id,leader,leader_email from employee where name = #{name}
+    </select>
+</mapper>
