@@ -8,6 +8,10 @@ import com.sss.online.dto.EmployeeDto;
 import com.sss.online.pojo.QJLX;
 import com.sss.online.pojo.XZGL;
 import com.sss.online.util.Md5Util;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.amqp.core.AmqpAdmin;
@@ -27,6 +31,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.mail.internet.MimeMessage;
 import javax.sql.DataSource;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -184,4 +189,22 @@ public class OnlineApplicationTests {
         List<QJLX> qjlxes = qjglMapper.selectAll();
         System.out.println(qjlxes);
     }
+    @Test
+    public void testPoi() throws Exception{
+        //创建HSSFWorkbook对象
+         HSSFWorkbook wb = new HSSFWorkbook();
+         //创建HSSFSheet对象
+         HSSFSheet sheet = wb.createSheet("sheet0");
+         //创建HSSFRow对象
+         HSSFRow row = sheet.createRow(0);
+         //创建HSSFCell对象
+         HSSFCell cell=row.createCell(0);
+         //设置单元格的值
+         cell.setCellValue("单元格中的中文");
+         //输出Excel文件
+         FileOutputStream output = new FileOutputStream("F:\\workbook.xlsx");
+         wb.write(output);
+         output.flush();
+    }
+
 }

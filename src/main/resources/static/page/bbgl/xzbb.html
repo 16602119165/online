@@ -64,32 +64,46 @@
         }
 
         function reportExport() {
+            /*var form=$("<form>");//定义一个form表单 只有一个参数可以提交，也不知道为啥
+            form.attr("style","display:none");
+            form.attr("target","");
+            form.attr("method","post");
+            form.attr("action","http://localhost:8090/page/bbgl/xzbb/reportExport");
+            var input1=$("<input>");
+            input1.attr("type","hidden");
+            input1.attr("name","empName");
+            input1.attr("value",$('#empName').combotree('getText'));
+            input1.attr("name","formTypeDetail");
+            input1.attr("value",$('#formTypeDetail').combotree('getText'));
+            input1.attr("name","startTime");
+            input1.attr("value",$('#start').combotree('getText'));
+            input1.attr("name","endTime");
+            input1.attr("value",$('#end').combotree('getText'));
+            $("body").append(form);
+            form.append(input1);
+            form.submit();//表单提交。*/
+
             var name = $('#empName').combotree('getText');
             var s = $('#start').datetimebox('getValue');
             var e = $('#end').datetimebox('getValue');
             var detail = $('#formTypeDetail').combobox('getText');
-            $.ajax({
-                type:'POST',
-                url: "../bbgl/xzbb/reportExport",
-                dataType:'json',
-                //data: $('#reportForm').serialize(),
-                data: {"empName":name,"formTypeDetail":detail,"startTime":s,"endTime":e},
-                success:function(result){
-                }
-            });
+            window.location.href="http://localhost:8090/page/bbgl/xzbb/reportExport?empName="+name+'&formTypeDetail='+detail+'&startTime='+s+'&endTime='+e
+
+
         }   
     </script>
 </head>
 
 <body class='easyui-layout' fit='true'>
-    <div data-options="region:'north',title:'筛选条件',split:true" style="height:100px;">
+    <div data-options="region:'north',title:'筛选条件',split:true" style="height:110px;">
             <!--在easyui中，查询条件可以不用form包裹起来，可以使用datagrid的toolbar来提交数据-->
-        <form id="reportForm" method="post" >
+        <form id="reportForm" method="post"  >
             <table>
                     <tr>
                         <td>开始时间<input class='easyui-datetimebox' type="text" id='start' name="start" data-options="required:true"></td>
                         <td>结束时间<input class='easyui-datetimebox' type="text" id='end' name="end" data-options="required:true"></td>
                         <td>姓名<input id="empName" name="empName" class="easyui-combotree" data-options="required:true,valueField:'id',textField:'text',editable:'true',url:'../../page/bbgl/xzbb/queryName'"></td>
+                        <td></td>
                         <td>类型详细<input id="formTypeDetail"name="formTypeDetail" class="easyui-combobox" data-options="required:true,valueField:'id',textField:'text',editable:'false',url:'../../page/xzgl/qjgl/qjlx'" /></td>
                     </tr>
             </table>

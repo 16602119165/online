@@ -8,6 +8,7 @@ import java.util.Date;
 /**
  * @author
  * @create 2019-07-04-16:51
+ * yyyy-MM-dd HH:mm:ss
  */
 public class DateUtil {
     public static String dateToString(Date date, String dateFormat){

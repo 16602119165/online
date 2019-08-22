@@ -10,7 +10,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @MapperScan(value = "com.sss.online.dao")
 @EnableRabbit
 @SpringBootApplication
-@EnableEurekaClient
+//@EnableEurekaClient
 public class OnlineApplication {
 
     public static void main(String[] args) {
