@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sss.online.dao.MainMenuMapper">
+    <resultMap id="shiroRolePermissions" type="com.sss.online.pojo.ShiroRolePermissions">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="role_id" jdbcType="INTEGER" property="roleId"></result>
+        <result column="permissions" jdbcType="INTEGER" property="permissions"></result>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"></result>
+    </resultMap>
+
+    <resultMap id="shiroPermissions" type="com.sss.online.pojo.ShiroPermissions">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="menu_name" jdbcType="VARCHAR" property="menuName"></result>
+        <result column="p_id" jdbcType="INTEGER" property="pId"></result>
+        <result column="menu_url" jdbcType="VARCHAR" property="menuUrl"></result>
+    </resultMap>
+
+    <select id="selectByRoleId" resultType="java.lang.Integer">
+        select permissions from shiro_role_permissions where role_id in
+        <foreach collection="roleIdS" separator="," item="item" open="(" close=")" index="index">
+          #{item}
+        </foreach>
+    </select>
+    <!--根据资源组件查出所有的一级菜单-->
+    <select id="selectRootByPermissionsId" resultMap="shiroPermissions">
+        select * from shiroPermissions where in
+        <foreach collection="menuId" separator="," item="item" open="(" close=")" index="index">
+            #{item}
+        </foreach>
+        and p_id = 0
+    </select>
+    <select id="selectByPermissionsId" resultMap="shiroPermissions">
+        select * from shiro_permissions where id in
+        <foreach collection="menuId" separator="," item="item" open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

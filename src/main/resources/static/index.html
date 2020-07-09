@@ -2,14 +2,85 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script type="text/javascript" src="js/jquery-easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-easyui/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="js/jquery-easyui/themes/icon.css">
+    <script type="text/javascript" src="js/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
     <title>欢迎登陆SSS中台系统</title>
 </head>
 <body>
-    <h1>欢迎登陆SSS中台系统</h1>
-    <form action="/login" method="post">
-        账号:<input type="text" name="name"><br>
-        密码:<input type="password" name="psd"><br>
-        <input type="submit" value="登陆">
+<div id="loginAndRegDialog" title="用户登录" style="width:400px;height:200px;">
+    <form id="loginForm" method="post">
+        <table>
+            <tr>
+                <th align="right">用户名</th>
+                <td><input name="name" class="easyui-validatebox" data-options="required:true"/></td>
+            </tr>
+            <tr>
+                <th align="right">密码</th>
+                <td><input name="psd"  class="easyui-validatebox" data-options="required:true" type="password" /></td>
+            </tr>
+        </table>
     </form>
+</div>
+
+    <script type="text/javascript">
+        $(function(){
+            loginAndRegDialog = $('#loginAndRegDialog').dialog({
+                modal:true,
+                buttons:[{
+                    text:"shiro登录",
+                    handler : function(){
+                        $.ajax({
+                            type:'POST',
+                            url:'http://localhost:8090/shiroLogin',
+                            data:$('#loginForm').serialize(),
+                            dataType:'json',
+                            success:function(result){
+                                if(result && result.status == 0){
+                                    loginAndRegDialog.dialog('close');
+                                    $.messager.show({
+                                        title:'提示',
+                                        msg:"登录成功",
+                                        timeout:5000
+                                    });
+
+                                }else{
+                                    $.messager.alert('标题',result.message);
+                                }
+                                window.location="../page/shiro.html"
+                            }
+                        });
+                    }
+                },{
+                    text:"登录",
+                    handler : function(){
+                        $.ajax({
+                            type:'POST',
+                            url:'http://localhost:8090/login',
+                            data:$('#loginForm').serialize(),
+                            dataType:'json',
+                            success:function(result){
+                                if(result && result.status == 0){
+                                    loginAndRegDialog.dialog('close');
+                                    $.messager.show({
+                                        title:'提示',
+                                        msg:"登录成功",
+                                        timeout:5000
+                                    });
+                                    sessionStorage.setItem('emp',JSON.stringify(result.data));
+                                    window.location="../page/main.html"
+                                }else{
+                                    $.messager.alert('标题',result.message);
+                                }
+                            }
+                        });
+                    }
+                } ]
+
+            });
+        });
+    </script>
 </body>
 </html>

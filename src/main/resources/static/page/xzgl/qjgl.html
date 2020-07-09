@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../commonjs/common.js"></script>
+    <title>请假管理</title>
+</head>
+<body class="eayui-layout" fit="true">
+<div region='center' style="padding: 5px; width: 100%; height: 100%;">
+    <div fit='true'>
+        <form id="qjform" method="post">
+            <table>
+                <tr>
+                    <td>申请人:</td>
+                    <td><input name="empName" type="text" id="emp" value="" style="width: 50px;height: 50px"></input></td>
+                    <!--<td>部门:</td>
+                    <td><input id="deptName" value="" style="width: 50px;height: 50px"></input></td>
+                    <td>职位:</td>
+                    <td><input id="post" value="" style="width: 50px;height: 50px"></input></td>-->
+                </tr>
+                <tr>
+                    <td>部门:</td>
+                    <td><input id="bumen" value="" name="deptName"></input></td>
+                </tr>
+                <tr>
+                    <td>职位:</td>
+                    <td><input id="zhiwei" value="" name="post"></input></td>
+                </tr>
+                <tr>
+                    <td>工号:</td>
+                    <td><input id="gonghao" value="" name="empId"></input></td>
+                </tr>
+                <tr>
+                    <td>请假类型:</td>
+                    <!--<td><input name="qjlx" class="easyui-combobox" data-options="valueField:'id',textField:'text',editable:'false'" url="../xzgl/qjgl/qjlx" /></td>-->
+                    <td><span class="searchcss"><input id="lx" name="qjlx" class="easyui-combobox" data-options="valueField:'id',textField:'text',editable:'true',url:'../../page/xzgl/qjgl/qjlx'" /></span></td>
+                </tr>
+                <tr>
+                    <td>请假开始时间:</td>
+                    <td><input class='easyui-datetimebox'  type="text" id='s' name="start"></td>
+                </tr>
+                <tr>
+                    <td>请假结束时间:</td>
+                    <td><input class='easyui-datetimebox'  type="text" id='e' name="end"></td>
+                </tr>
+                <tr>
+                    <td>时间</td>
+                    <td><input type="text" style="width: auto" height="100px" name="time"/></td>
+                </tr>
+                <tr>
+                    <td>事由</td>
+                    <td><input type="text" id='shiyou' style="width: auto" height="100px" name="qjsy"/></td>
+                </tr>
+                <tr>
+                    <td>审批人:</td>
+                    <td><input id="shenpiren" value="" name="leader"/></td>
+                </tr>
+                <tr>
+                    <td>抄送:</td>
+                    <!--<td><select class="easyui-combotree" url="../../xzgl/qjgl/cs" name="cs"/></td>-->
+                    <td><select id="caosong" name="cs" class="easyui-combotree" style="width:100px;" data-options="url:'../../page/xzgl/qjgl/cs'"></select></td>
+                </tr>
+                <!--<tr>
+                    <td>附件:</td>
+                    <td><input class="easyui-filebox" style="width:300px" ></td>
+                </tr>-->
+                <tr>
+                    <td><button type="button" id="btn" onclick="submitForm()">提交</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var data = JSON.parse(sessionStorage.getItem('emp'));
+        $("#emp").val(data.name);
+        $('#bumen').val(data.deptName);
+        $('#zhiwei').val(data.post);
+        $('#gonghao').val(data.empId);
+        $('#shenpiren').val(data.leader);
+        /*用，号分割不同的js代码*/
+
+    });
+    function submitForm() {
+        //js 表单serialize()后增加参数
+        var data = $.param({"formTypeDetail":$('#lx').combobox('getText')}) + "&" + $('#qjform').serialize();
+        //var detail = $('#lx').combobox('getText');
+        $.ajax({
+            type: 'POST',
+            url: '../xzgl/qjgl/add',
+            //data: $('#qjform').serialize()+"&"+$.param({"formTypeDetail":detail}),
+            data:data,
+            dataType: 'json',
+            success: function (result) {
+                if (result && result.status == 0) {
+                    $.messager.show({
+                        title: '提示',
+                        msg: result.message,
+                        timeout: 5000
+                    });
+
+                } else {
+                    $.messager.alert('标题', result.message);
+                    $.messager.show({
+                        title: '提示',
+                        msg: result.message,
+                        timeout: 5000
+                    });
+                }
+                window.location.reload();
+            }
+        });
+    }
+</script>
+</body>
+</html>
